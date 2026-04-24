@@ -7,7 +7,6 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/status-beta-orange" />
-  <img src="https://img.shields.io/badge/language-python-blue" />
   <img src="https://img.shields.io/badge/purpose-cheat%20detection-red" />
   <img src="https://img.shields.io/badge/contributions-welcome-brightgreen" />
 </p>
