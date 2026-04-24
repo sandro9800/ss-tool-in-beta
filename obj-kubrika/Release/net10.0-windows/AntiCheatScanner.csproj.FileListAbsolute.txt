@@ -1,0 +1,10 @@
+C:\Users\admin\Documents\AntiCheatScanner\obj-kubrika\Release\net10.0-windows\MainWindow.baml
+C:\Users\admin\Documents\AntiCheatScanner\obj-kubrika\Release\net10.0-windows\App.baml
+C:\Users\admin\Documents\AntiCheatScanner\obj-kubrika\Release\net10.0-windows\MainWindow.g.cs
+C:\Users\admin\Documents\AntiCheatScanner\obj-kubrika\Release\net10.0-windows\App.g.cs
+C:\Users\admin\Documents\AntiCheatScanner\obj-kubrika\Release\net10.0-windows\AntiCheatScanner_MarkupCompile.cache
+C:\Users\admin\Documents\AntiCheatScanner\obj-kubrika\Release\net10.0-windows\AntiCheatScanner.g.resources
+C:\Users\admin\Documents\AntiCheatScanner\obj-kubrika\Release\net10.0-windows\AntiCheatScanner.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\admin\Documents\AntiCheatScanner\obj-kubrika\Release\net10.0-windows\AntiCheatScanner.AssemblyInfoInputs.cache
+C:\Users\admin\Documents\AntiCheatScanner\obj-kubrika\Release\net10.0-windows\AntiCheatScanner.AssemblyInfo.cs
+C:\Users\admin\Documents\AntiCheatScanner\obj-kubrika\Release\net10.0-windows\AntiCheatScanner.csproj.CoreCompileInputs.cache

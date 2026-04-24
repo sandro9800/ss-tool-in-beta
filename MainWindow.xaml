@@ -1,0 +1,535 @@
+<Window x:Class="AntiCheatScanner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AntiCheat Scanner"
+        Width="1180"
+        Height="760"
+        MinWidth="980"
+        MinHeight="640"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResizeWithGrip"
+        WindowStyle="ThreeDBorderWindow">
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                Padding="24"
+                Background="{StaticResource HeroBrush}"
+                CornerRadius="24">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="340"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <TextBlock Text="AntiCheat Scanner"
+                               FontSize="30"
+                               FontWeight="Bold"
+                               Foreground="White"/>
+                    <TextBlock Margin="0,8,0,0"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="#89E9DA"
+                               Text="Made by Kubrika for goldensmp.pro"/>
+                    <TextBlock Margin="0,10,0,0"
+                               FontSize="14"
+                               Foreground="#D3F7F1"
+                               TextWrapping="Wrap"
+                               Text="Automatic .jar and .log discovery, faster scanning, clearer reporting, and a desktop UI that behaves like a normal Windows app."/>
+                </StackPanel>
+
+                <Border Grid.Column="1"
+                        Padding="16"
+                        CornerRadius="16"
+                        Background="#1E293B">
+                    <StackPanel>
+                        <TextBlock Text="STATUS"
+                                   FontSize="11"
+                                   FontWeight="Bold"
+                                   Foreground="#89E9DA"/>
+                        <TextBlock x:Name="StatusText"
+                                   Margin="0,8,0,0"
+                                   FontSize="20"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"
+                                   Text="Ready"/>
+                        <TextBlock x:Name="TargetInfoText"
+                                   Margin="0,10,0,0"
+                                   FontSize="13"
+                                   Foreground="#D2FAF4"
+                                   TextWrapping="Wrap"
+                                   Text="Scanning all ready drives for .jar and .log files."/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1"
+                Margin="0,16,0,0"
+                Style="{StaticResource CardStyle}">
+            <StackPanel>
+                <TextBlock Style="{StaticResource SectionTitleStyle}"
+                           Text="Whole-Drive Scan"/>
+                <TextBlock Margin="0,8,0,0"
+                           FontSize="13"
+                           Foreground="{StaticResource MutedTextBrush}"
+                           TextWrapping="Wrap"
+                           Text="This app now scans every ready drive automatically. Refresh to rediscover all .jar and .log files, then run a full scan or target only logs or JARs."/>
+
+                <StackPanel Margin="0,14,0,0"
+                            Orientation="Horizontal">
+                    <Button x:Name="RefreshButton"
+                            Width="118"
+                            Margin="0,0,10,0"
+                            Content="Refresh"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Click="Refresh_Click"/>
+                    <Button x:Name="ScanAllButton"
+                            Width="118"
+                            Margin="0,0,10,0"
+                            Content="Scan All"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Click="ScanAll_Click"/>
+                    <Button x:Name="ScanLogsButton"
+                            Width="118"
+                            Margin="0,0,10,0"
+                            Content="Scan Logs"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Click="ScanLogs_Click"/>
+                    <Button x:Name="ScanJarsButton"
+                            Width="118"
+                            Margin="0,0,0,0"
+                            Content="Scan JARs"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Click="ScanJars_Click"/>
+                </StackPanel>
+
+                <TextBlock x:Name="DrivesText"
+                           Margin="0,14,0,0"
+                           FontSize="12"
+                           Foreground="{StaticResource MutedTextBrush}"
+                           Text="Drives: detecting available roots..."/>
+
+                <StackPanel Margin="0,12,0,0">
+                    <TextBlock x:Name="ScanProgressText"
+                               FontSize="12"
+                               Foreground="{StaticResource MutedTextBrush}"
+                               Text="Progress: idle"/>
+                    <ProgressBar x:Name="ScanProgressBar"
+                                 Margin="0,8,0,0"
+                                 Height="14"
+                                 Minimum="0"
+                                 Maximum="100"
+                                 Value="0"/>
+                </StackPanel>
+
+                <Grid Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock x:Name="LastRunText"
+                               Grid.Column="0"
+                               FontSize="12"
+                               Foreground="{StaticResource MutedTextBrush}"
+                               Text="Last scan: not run yet"/>
+                    <TextBlock x:Name="ReportPathText"
+                               Grid.Column="1"
+                               FontSize="12"
+                               Foreground="{StaticResource MutedTextBrush}"
+                               TextAlignment="Right"
+                               TextTrimming="CharacterEllipsis"
+                               Text="Report: not generated yet"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- <Border Grid.Row="2"
+                Margin="0,16,0,0"
+                Style="{StaticResource CardStyle}">
+            <StackPanel>
+                <TextBlock Style="{StaticResource SectionTitleStyle}"
+                           Text="ZIP Archive Analysis"/>
+                <TextBlock Margin="0,8,0,0"
+                           FontSize="13"
+                           Foreground="{StaticResource MutedTextBrush}"
+                           TextWrapping="Wrap"
+                           Text="Analyze .zip archives for behavioral cheat patterns. Extracts safely, analyzes code and logs, detects distributed cheat logic across files."/>
+
+                <StackPanel Margin="0,14,0,0"
+                            Orientation="Horizontal">
+                    <Button x:Name="AnalyzeZipButton"
+                            Width="140"
+                            Content="Analyze ZIP File"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Click="AnalyzeZip_Click"/>
+                </StackPanel>
+
+                <TextBlock x:Name="ZipAnalysisText"
+                           Margin="0,14,0,0"
+                           FontSize="12"
+                           Foreground="{StaticResource MutedTextBrush}"
+                           Text="Select a .zip file to analyze for cheat patterns."/>
+            </StackPanel>
+        </Border> -->
+
+        <Grid Grid.Row="2"
+              Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock FontSize="12" Foreground="{StaticResource MutedTextBrush}" Text="Targets"/>
+                    <TextBlock x:Name="TotalFilesText" Style="{StaticResource MetricValueStyle}" Text="0"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="2" Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock FontSize="12" Foreground="{StaticResource MutedTextBrush}" Text=".log Files"/>
+                    <TextBlock x:Name="LogFilesText" Style="{StaticResource MetricValueStyle}" Text="0"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="4" Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock FontSize="12" Foreground="{StaticResource MutedTextBrush}" Text=".jar Files"/>
+                    <TextBlock x:Name="JarFilesText" Style="{StaticResource MetricValueStyle}" Text="0"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="6" Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock FontSize="12" Foreground="{StaticResource MutedTextBrush}" Text="Detections"/>
+                    <TextBlock x:Name="DetectionCountText" Style="{StaticResource MetricValueStyle}" Text="0"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="8" Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock FontSize="12" Foreground="{StaticResource MutedTextBrush}" Text="Failures"/>
+                    <TextBlock x:Name="FailureCountText" Style="{StaticResource MetricValueStyle}" Text="0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="3"
+              Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.05*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="1.55*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.35*"/>
+                    <RowDefinition Height="16"/>
+                    <RowDefinition Height="0.9*"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource SectionTitleStyle}"
+                                       Text="Discovered Targets"/>
+                            <TextBlock Margin="0,6,0,0"
+                                       FontSize="12"
+                                       Foreground="{StaticResource MutedTextBrush}"
+                                       Text="Every matching .jar and .log file across all ready drives."/>
+                        </StackPanel>
+
+                        <Grid Grid.Row="1" Margin="0,14,0,0">
+                            <ListBox x:Name="DiscoveriesList"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="0,0,0,10"
+                                                Padding="12"
+                                                CornerRadius="14"
+                                                BorderThickness="1"
+                                                Background="#F8FBFD"
+                                                BorderBrush="#E2E8F0">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="12"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Grid.Column="0"
+                                                        Padding="10,4"
+                                                        CornerRadius="999">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="Background" Value="#DFF6F1"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding KindLabel}" Value="JAR">
+                                                                    <Setter Property="Background" Value="#DDEBFF"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <TextBlock FontSize="11"
+                                                               FontWeight="Bold"
+                                                               Text="{Binding KindLabel}"/>
+                                                </Border>
+
+                                                <StackPanel Grid.Column="2">
+                                                    <TextBlock FontSize="14"
+                                                               FontWeight="SemiBold"
+                                                               Text="{Binding Name}"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock Margin="0,4,0,0"
+                                                               FontSize="12"
+                                                               Foreground="{StaticResource MutedTextBrush}"
+                                                               Text="{Binding DirectoryPath}"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock Margin="0,4,0,0"
+                                                               FontSize="11"
+                                                               Foreground="{StaticResource MutedTextBrush}"
+                                                               Text="{Binding SizeLabel}"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <TextBlock x:Name="EmptyDiscoveriesText"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="14"
+                                       Foreground="{StaticResource MutedTextBrush}"
+                                       Visibility="Collapsed"
+                                       Text="No .jar or .log files found across ready drives."/>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="2" Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource SectionTitleStyle}"
+                                       Text="Unreadable Files"/>
+                            <TextBlock Margin="0,6,0,0"
+                                       FontSize="12"
+                                       Foreground="{StaticResource MutedTextBrush}"
+                                       Text="Files that could not be processed during the latest scan."/>
+                        </StackPanel>
+
+                        <Grid Grid.Row="1" Margin="0,14,0,0">
+                            <ListBox x:Name="FailuresList"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="0,0,0,10"
+                                                Padding="12"
+                                                CornerRadius="14"
+                                                BorderThickness="1"
+                                                Background="#FFF8F1"
+                                                BorderBrush="#F3D1B2">
+                                            <StackPanel>
+                                                <TextBlock FontSize="13"
+                                                           FontWeight="SemiBold"
+                                                           Text="{Binding FileName}"
+                                                           TextTrimming="CharacterEllipsis"/>
+                                                <TextBlock Margin="0,4,0,0"
+                                                           FontSize="11"
+                                                           Foreground="{StaticResource MutedTextBrush}"
+                                                           Text="{Binding Message}"
+                                                           TextWrapping="Wrap"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <TextBlock x:Name="EmptyFailuresText"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="14"
+                                       Foreground="{StaticResource MutedTextBrush}"
+                                       Visibility="Visible"
+                                       Text="No scan failures."/>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Border Grid.Column="2" Style="{StaticResource CardStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource SectionTitleStyle}"
+                                   Text="Scan Output"/>
+                        <TextBlock Margin="0,6,0,0"
+                                   FontSize="12"
+                                   Foreground="{StaticResource MutedTextBrush}"
+                                   Text="Guaranteed cheat files, detection details, and scan activity for the full system scan."/>
+                    </StackPanel>
+
+                    <TabControl Grid.Row="1"
+                                Margin="0,14,0,0">
+                        <TabItem Header="Guaranteed">
+                            <Grid>
+                                <ListBox x:Name="GuaranteedFilesList"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Margin="0,0,0,10"
+                                                    Padding="12"
+                                                    CornerRadius="14"
+                                                    BorderThickness="1"
+                                                    Background="#FEE2E2"
+                                                    BorderBrush="#FCA5A5">
+                                                <StackPanel>
+                                                    <TextBlock FontSize="13"
+                                                               FontWeight="Bold"
+                                                               Text="{Binding FileName}"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock Margin="0,4,0,0"
+                                                               FontSize="11"
+                                                               Foreground="{StaticResource MutedTextBrush}"
+                                                               Text="{Binding DirectoryPath}"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock Margin="0,6,0,0"
+                                                               FontSize="12"
+                                                               FontWeight="SemiBold"
+                                                               Text="{Binding KindLabel, StringFormat=Type: {0}}"/>
+                                                    <TextBlock Margin="0,2,0,0"
+                                                               FontSize="12"
+                                                               Text="{Binding HighestScore, StringFormat=Highest score: {0}}"/>
+                                                    <TextBlock Margin="0,2,0,0"
+                                                               FontSize="12"
+                                                               Text="{Binding KeywordSummary, StringFormat=Matched keywords: {0}}"
+                                                               TextWrapping="Wrap"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+
+                                <TextBlock x:Name="EmptyGuaranteedText"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="14"
+                                           Foreground="{StaticResource MutedTextBrush}"
+                                           Visibility="Visible"
+                                           Text="No guaranteed cheat files found yet."/>
+                            </Grid>
+                        </TabItem>
+
+                        <TabItem Header="Detections">
+                            <Grid>
+                                <DataGrid x:Name="ResultGrid"
+                                          AutoGenerateColumns="False"
+                                          CanUserAddRows="False"
+                                          CanUserDeleteRows="False"
+                                          IsReadOnly="True"
+                                          HeadersVisibility="Column"
+                                          GridLinesVisibility="Horizontal"
+                                          RowHeaderWidth="0"
+                                          BorderThickness="0"
+                                          Background="Transparent">
+                                    <DataGrid.RowStyle>
+                                        <Style TargetType="DataGridRow">
+                                            <Setter Property="Background" Value="White"/>
+                                            <Setter Property="BorderBrush" Value="#E2E8F0"/>
+                                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SeverityLabel}" Value="CRITICAL">
+                                                    <Setter Property="Background" Value="#FEE2E2"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding SeverityLabel}" Value="HIGH">
+                                                    <Setter Property="Background" Value="#FEF3C7"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding SeverityLabel}" Value="MEDIUM">
+                                                    <Setter Property="Background" Value="#FFF7ED"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.RowStyle>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Risk" Binding="{Binding SeverityLabel}" Width="90"/>
+                                        <DataGridTextColumn Header="Score" Binding="{Binding Score}" Width="65"/>
+                                        <DataGridTextColumn Header="Kind" Binding="{Binding KindLabel}" Width="65"/>
+                                        <DataGridTextColumn Header="Keyword" Binding="{Binding Keyword}" Width="130"/>
+                                        <DataGridTextColumn Header="File" Binding="{Binding FileName}" Width="180"/>
+                                        <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="150"/>
+                                        <DataGridTextColumn Header="Evidence" Binding="{Binding Evidence}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                                <TextBlock x:Name="EmptyResultsText"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="14"
+                                           Foreground="{StaticResource MutedTextBrush}"
+                                           Visibility="Visible"
+                                           Text="Run a scan to see detections."/>
+                            </Grid>
+                        </TabItem>
+
+                        <TabItem Header="Activity">
+                            <Grid>
+                                <ListBox x:Name="ActivityList"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+
+                                <TextBlock x:Name="EmptyActivityText"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="14"
+                                           Foreground="{StaticResource MutedTextBrush}"
+                                           Visibility="Collapsed"
+                                           Text="No activity yet."/>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+    </ScrollViewer>
+</Window>

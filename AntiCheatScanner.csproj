@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <DisableTransitiveFrameworkReferenceDownloads>true</DisableTransitiveFrameworkReferenceDownloads>
+    <AssemblyName>AntiCheatScanner</AssemblyName>
+    <RootNamespace>AntiCheatScanner</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <Deterministic>true</Deterministic>
+    <Prefer32Bit>false</Prefer32Bit>
+    <Company>Kubrika</Company>
+    <Product>goldensmp.pro</Product>
+    <Authors>Kubrika</Authors>
+    <Description>Whole-drive anti-cheat scanner for goldensmp.pro.</Description>
+    <DefaultItemExcludes>$(DefaultItemExcludes);.codex-build\**;obj-*\**</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <Optimize>true</Optimize>
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <TieredCompilation>true</TieredCompilation>
+    <TieredPGO>true</TieredPGO>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <PublishReadyToRun>false</PublishReadyToRun>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release' and '$(StandalonePublish)' == 'true'">
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <PublishTrimmed>false</PublishTrimmed>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove=".codex-build\**\*.cs" />
+    <Page Remove=".codex-build\**\*.xaml" />
+    <ApplicationDefinition Remove=".codex-build\App.xaml" />
+    <None Remove=".codex-build\**\*" />
+    <EmbeddedResource Remove=".codex-build\**\*" />
+    <Compile Remove="obj-*\**\*.cs" />
+    <Page Remove="obj-*\**\*.xaml" />
+    <ApplicationDefinition Remove="obj-*\**\App.xaml" />
+    <None Remove="obj-*\**\*" />
+    <EmbeddedResource Remove="obj-*\**\*" />
+    <Compile Remove="ZipAnalyzerConsole.cs" />
+    <EmbeddedResource Include="cheatnames.txt" LogicalName="AntiCheatScanner.cheatnames.txt" />
+  </ItemGroup>
+</Project>

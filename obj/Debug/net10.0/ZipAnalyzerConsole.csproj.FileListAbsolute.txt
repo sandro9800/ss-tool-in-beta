@@ -1,0 +1,14 @@
+C:\Users\admin\Documents\AntiCheatScanner\bin\Debug\net10.0\ZipAnalyzerConsole.exe
+C:\Users\admin\Documents\AntiCheatScanner\bin\Debug\net10.0\ZipAnalyzerConsole.deps.json
+C:\Users\admin\Documents\AntiCheatScanner\bin\Debug\net10.0\ZipAnalyzerConsole.runtimeconfig.json
+C:\Users\admin\Documents\AntiCheatScanner\bin\Debug\net10.0\ZipAnalyzerConsole.dll
+C:\Users\admin\Documents\AntiCheatScanner\bin\Debug\net10.0\ZipAnalyzerConsole.pdb
+C:\Users\admin\Documents\AntiCheatScanner\obj\Debug\net10.0\ZipAnalyzerConsole.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\admin\Documents\AntiCheatScanner\obj\Debug\net10.0\ZipAnalyzerConsole.AssemblyInfoInputs.cache
+C:\Users\admin\Documents\AntiCheatScanner\obj\Debug\net10.0\ZipAnalyzerConsole.AssemblyInfo.cs
+C:\Users\admin\Documents\AntiCheatScanner\obj\Debug\net10.0\ZipAnalyzerConsole.csproj.CoreCompileInputs.cache
+C:\Users\admin\Documents\AntiCheatScanner\obj\Debug\net10.0\ZipAnalyzerConsole.dll
+C:\Users\admin\Documents\AntiCheatScanner\obj\Debug\net10.0\refint\ZipAnalyzerConsole.dll
+C:\Users\admin\Documents\AntiCheatScanner\obj\Debug\net10.0\ZipAnalyzerConsole.pdb
+C:\Users\admin\Documents\AntiCheatScanner\obj\Debug\net10.0\ZipAnalyzerConsole.genruntimeconfig.cache
+C:\Users\admin\Documents\AntiCheatScanner\obj\Debug\net10.0\ref\ZipAnalyzerConsole.dll

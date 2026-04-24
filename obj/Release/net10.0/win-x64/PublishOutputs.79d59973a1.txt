@@ -1,0 +1,2 @@
+C:\Users\admin\Documents\AntiCheatScanner\publish\fixed\zip-analyzer\ZipAnalyzerConsole.pdb
+C:\Users\admin\Documents\AntiCheatScanner\publish\fixed\zip-analyzer\ZipAnalyzerConsole.exe
