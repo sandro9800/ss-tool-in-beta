@@ -71,4 +71,4 @@ I have used help from codex and am not gonna hide it
 
 ## 📫 Contact
 
-**Discord:** your_discord_here
+**Discord** Iobidze
